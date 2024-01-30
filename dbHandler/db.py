@@ -44,14 +44,14 @@ def load(json) -> bool:
     conn = sqlite3.connect("trucks.db")
 
     for entry in json:
-        print(entry["avatar"]["src"])
+        #print(entry["avatar"]["src"])
         conn.cursor().execute(query,(
             entry["truck_id"],
             entry["name"],
             entry["category"],
             entry["bio"],
             entry["avatar"]["src"],
-            entry["cover_photo"]["src"],
+            entry["cover_photo"]["src"] if isinstance(entry["cover_photo"], dict) else '',
             entry["website"],
             entry["facebook_url"],
             entry["instagram_handle"],
