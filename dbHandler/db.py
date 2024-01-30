@@ -26,17 +26,31 @@ def create(json) -> bool:
             );
         """)
 
+        conn.commit()
+
         if load(json) == 1:
             exit(1)
+        else:
+            return 0
     else: 
         return 1
 
-def update():
-    pass
-
-def load(json) -> bool:
+def update(json) -> bool:
     """
-    Loads api resulant into the database.
+    Updates api resultant in the database.
+    """
+
+    conn = sqlite3.connect("trucks.db")
+
+    conn.cursor().execute("DROP TABLE trucks")
+
+    conn.commit()
+
+    return create(json)
+
+def load(json) -> None:
+    """
+    Loads api resultant into the database.
     """
 
     query = "INSERT INTO trucks VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
@@ -58,3 +72,13 @@ def load(json) -> bool:
             entry["twitter_handle"]
             )                  
         )
+
+        conn.commit()
+
+def truck_example(numOf: int) -> list:
+    conn = sqlite3.connect("trucks.db")
+
+    return conn.cursor().execute(
+        f"SELECT * FROM trucks ORDER BY RANDOM() LIMIT {numOf}"
+    ).fetchall()
+        
