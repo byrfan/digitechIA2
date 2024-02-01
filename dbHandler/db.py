@@ -32,7 +32,7 @@ def create(json) -> bool:
             exit(1)
         else:
             return 0
-    else: 
+    else:
         return 1
 
 def update(json) -> bool:

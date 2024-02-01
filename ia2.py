@@ -1,11 +1,15 @@
 from flask import *
 from dbHandler import db
+from api import api
 
 print("Creating Flask Instance")
 app = Flask("IA2 Template")
 
+print("Grabbing json from API")
+json = api.get()
+
 print("Checking DB Status... ", end="")
-if not bool(db.create):
+if db.create(json):
     print("Exists!")
 else:
     print("DB Does Not Exist.\n New DB Created...")
