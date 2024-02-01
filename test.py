@@ -10,11 +10,11 @@ def testOne(): # test database and api functionality
 
 def testTwo(): # test create() functionality in `db`
     json = api.get()
-    print(db.create(json))
+    print(db.createTrucks(json))
 
 def testThree():
     json = api.get()
-    if db.update(json) == 1:
+    if db.updateTrucks(json) == 1:
         exit(1)
 
 def testFour():
@@ -36,7 +36,7 @@ def testSix():
     print(eg)
 
 #testOne()
-testTwo()
+#testTwo()
 #testThree()
 #testFour()
 #testFive()

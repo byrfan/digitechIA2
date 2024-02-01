@@ -9,7 +9,7 @@ print("Grabbing json from API")
 json = api.get()
 
 print("Checking DB Status... ", end="")
-if db.create(json):
+if db.createTrucks(json):
     print("Exists!")
 else:
     print("DB Does Not Exist.\n New DB Created...")

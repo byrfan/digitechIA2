@@ -1,7 +1,10 @@
 import sqlite3
 import os
 
-def create(json) -> bool:
+
+###################################### Create Trucks ########################################
+
+def createTrucks(json) -> bool:
     """
     Creates database,
     should only be called from root directory.
@@ -28,14 +31,14 @@ def create(json) -> bool:
 
         conn.commit()
 
-        if load(json) == 1:
+        if loadTrucks(json) == 1:
             exit(1)
         else:
             return 0
     else:
         return 1
 
-def update(json) -> bool:
+def updateTrucks(json) -> bool:
     """
     Updates api resultant in the database.
     """
@@ -46,9 +49,9 @@ def update(json) -> bool:
 
     conn.commit()
 
-    return create(json)
+    return createTrucks(json)
 
-def load(json) -> None:
+def loadTrucks(json) -> None:
     """
     Loads api resultant into the database.
     """
@@ -81,4 +84,13 @@ def truck_example(numOf: int) -> list:
     return conn.cursor().execute(
         f"SELECT * FROM trucks ORDER BY RANDOM() LIMIT {numOf}"
     ).fetchall()
-        
+
+####################################### End Trucks ##########################################     
+
+###################################### Create Users #########################################
+
+######################################## End Users ##########################################
+
+###################################### Create Ratings #######################################
+
+####################################### End Ratings #########################################
