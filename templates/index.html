@@ -129,7 +129,7 @@ https://www.tooplate.com/view/2126-antique-cafe
             });
 
             $(document).scroll(function() {
-                var distanceFromTop = $(document).scrollTop();
+                var distanceFromTop = $(document).scrollTop(); 
 
                 if(distanceFromTop > 100) {
                     tmNav.addClass('scroll');
@@ -138,7 +138,7 @@ https://www.tooplate.com/view/2126-antique-cafe
                 }
             });
             
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => { // code out default <a> behaviour
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
 
