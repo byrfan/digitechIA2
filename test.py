@@ -24,7 +24,21 @@ def testFour():
     print(f"\n\n{case=}")
     print(f"{len(case)}")
 
+def testFive():
+    eg = db.truck_example(8)
+    for x in eg[:4]:
+        print(x[0])
+    
+    for x in eg[4:]:
+        print(x[0])
+
+def testSix():
+    eg = db.truck_example(1)
+    print(eg)
+
 #testOne()
 #testTwo()
 #testThree()
-testFour()
+#testFour()
+#testFive()
+testSix()

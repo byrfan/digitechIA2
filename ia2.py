@@ -12,6 +12,7 @@ else:
 
 @app.route("/")
 def landing():
-    return render_template("index.html", db.truck_example(8))
+    eg = db.truck_example(8)
+    return render_template("index.html", left=eg[:4], right=eg[4:])
 
 app.run(host="127.0.0.1", port="5000", debug=True)
