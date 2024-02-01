@@ -2,11 +2,11 @@ from api import api
 from dbHandler import db
 
 """
-#defunctional test
+#defunctional tests
 def testOne(): # test database and api functionality
     json = api.get()
     db.load(json)
-"""
+
 
 def testTwo(): # test create() functionality in `db`
     json = api.get()
@@ -16,6 +16,7 @@ def testThree():
     json = api.get()
     if db.updateTrucks(json) == 1:
         exit(1)
+"""
 
 def testFour():
     case = db.truck_example(8)
@@ -35,9 +36,14 @@ def testSix():
     eg = db.truck_example(1)
     print(eg)
 
+def testSeven():
+    json = api.get()
+    db.createTable(json)
+
 #testOne()
 #testTwo()
 #testThree()
 #testFour()
 #testFive()
 #testSix()
+testSeven()
