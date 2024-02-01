@@ -21,7 +21,7 @@ https://www.tooplate.com/view/2126-antique-cafe
 
 -->
 </head>
-<body>    
+<body style="opacity: 0; transition: opacity .5s;">    
     <!-- Intro -->
     <div id="intro" class="parallax-window" data-parallax="scroll" data-image-src="../static/food_truck_01.png">
         <nav id="tm-nav" class="fixed w-full">
@@ -29,9 +29,7 @@ https://www.tooplate.com/view/2126-antique-cafe
                 <button class="md:hidden py-2 px-2" id="menu-toggle"><i class="fas fa-2x fa-bars tm-text-gold"></i></button>
                 <ul class="mb-3 md:mb-0 text-2xl font-normal flex justify-end flex-col md:flex-row">
                     <li class="inline-block mb-4 mx-4"><a href="#intro" class="tm-text-gold py-1 md:py-3 px-4">Intro</a></li>
-                    <li class="inline-block mb-4 mx-4"><a href="#menu" class="tm-text-gold py-1 md:py-3 px-4">Menu</a></li>
-                    <li class="inline-block mb-4 mx-4"><a href="#about" class="tm-text-gold py-1 md:py-3 px-4">About</a></li>
-                    <li class="inline-block mb-4 mx-4"><a href="#contact" class="tm-text-gold py-1 md:py-3 px-4">Contact</a></li>
+                    <li class="inline-block mb-4 mx-4"><a href="#menu" class="tm-text-gold py-1 md:py-3 px-4">Trucks</a></li>
                 </ul>
             </div>            
         </nav>
@@ -55,11 +53,11 @@ https://www.tooplate.com/view/2126-antique-cafe
             </div>
         </div>        
     </div>
-    <!-- Cafe Menu -->
+    
     <div id="menu" class="parallax-window" data-parallax="scroll" data-image-src="../static/food_truck_02.jpg">
         <div class="container mx-auto tm-container py-24 sm:py-48">
             <div class="text-center mb-16">
-                <h2 class="bg-white tm-text-brown py-6 px-12 text-4xl font-medium inline-block rounded-md">Our Cafe Menu</h2>
+                <h2 class="bg-white tm-text-brown py-6 px-12 text-4xl font-medium inline-block rounded-md">Trucks</h2>
             </div>            
             <div class="flex flex-col lg:flex-row justify-around items-center">
                 <div class="flex-1 m-5 rounded-xl px-4 py-6 sm:px-8 sm:py-10 tm-bg-brown tm-item-container">
@@ -74,8 +72,6 @@ https://www.tooplate.com/view/2126-antique-cafe
                     {% endfor %}
                 </div>
                 
-
-                
                 <div class="flex-1 m-5 rounded-xl px-4 py-6 sm:px-8 sm:py-10 tm-bg-brown tm-item-container">
                     {% for element in right %}
                     <div class="flex items-start justify-end mb-6 tm-menu-item-2">
@@ -86,33 +82,25 @@ https://www.tooplate.com/view/2126-antique-cafe
                         <img src="{{element[4]}}" alt="Image" class="rounded-md">                   
                     </div>
                     {% endfor %}
-                </div>
+                </div> 
             </div>
-        </div>        
+            <div class="text-center">
+                <div class="inline-block">
+                    <span onclick="transitionToPage('/trucks')" class="flex justify-center items-center bg-black bg-opacity-70 py-6 px-8 rounded-lg font-semibold tm-text-2xl tm-text-gold hover:text-gray-200 transition">
+                        <i class="fas fa-coffee mr-3"></i>
+                        <span>View more...</span>                        
+                    </span>
+                </div>                    
+            </div>    
+        </div>       
     </div>
-    <div id="about" class="parallax-window" data-parallax="scroll" data-image-src="../static/food_truck_03.jpg">
-        <div class="container mx-auto tm-container py-24 sm:py-48">
-            <div class="tm-item-container sm:ml-auto sm:mr-12 mx-auto sm:px-0 px-4">
-                <div class="bg-white bg-opacity-80 p-12 pb-14 rounded-xl mb-5">
-                    <h2 class="mb-6 tm-text-green text-4xl font-medium">About our cafe</h2>
-                    <p class="mb-6 text-base leading-8">
-                        Images are taken from Pexels, a great stock photo website. This template used Tailwind CSS. You may modify Antique Cafe template in any way you prefer and use it for your website.
-                  </p>
-                    <p class="text-base leading-8">
-                        If you wish to <a rel="nofollow" href="https://www.tooplate.com/contact" target="_parent">support us</a>, please make a little donation via PayPal. That would be
-                    very helpful. Another way is to tell your friends about Tooplate website. Thank you. </p>
-                </div>
-                <a href="#contact" class="inline-block tm-bg-green transition text-white text-xl pt-3 pb-4 px-8 rounded-md">
-                    <i class="far fa-comments mr-4"></i>
-                    Contact
-                </a>
-            </div>           
-        </div>        
-    </div>
+
+
 
     <script src="../static/jquery-3.6.0.min.js"></script>
     <script src="../static/parallax.min.js"></script>
     <script src="../static/jquery.singlePageNav.min.js"></script>
+    <script src="../static/pageTransitions.js"></script>
     <script>
 
         function checkAndShowHideMenu() {
