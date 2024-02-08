@@ -40,6 +40,9 @@ def testSeven():
     json = api.get()
     db.createTable(json)
 
+def testEight():
+    db.loadUser("test", "testy")
+
 #testOne()
 #testTwo()
 #testThree()
@@ -47,3 +50,4 @@ def testSeven():
 #testFive()
 #testSix()
 testSeven()
+testEight()

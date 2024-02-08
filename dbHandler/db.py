@@ -3,9 +3,13 @@ import os
 
 def createTable(json):
     if not os.path.exists(f"{os.getcwd()}/trucks.db"):
-        if not createTrucks(json): exit(1)
-        if not createUsers(): exit(1)
+        
+        createTrucks(json)
+        createUsers()
         #if not createRatings(): exit(1)
+        
+
+        #print(createTrucks(json))
 
         return 0
     else:
@@ -38,13 +42,12 @@ def createTrucks(json) -> bool:
             PRIMARY KEY(ID)
         );
     """)
-
     conn.commit()
 
     if loadTrucks(json) == 1:
         return 1
-    else:
-        return 0
+    
+    return 0
     
 
 def updateTrucks(json) -> bool:
@@ -87,8 +90,10 @@ def loadTrucks(json) -> None:
 
         conn.commit()
         return 0
-    except:
-        return 1
+    except Exception as e:
+        #print("Error, ", e)
+        #return 1
+        pass
 
 def truck_example(numOf: int) -> list:
     conn = sqlite3.connect("trucks.db")
@@ -112,11 +117,13 @@ def createUsers() -> bool:
     try: # couldnt use CREATE TABLE IF NOT EXITS HERE, in order to check for table creation on attempt.
         conn.cursor().execute("""\
             CREATE TABLE users(
-                UID INTEGER UNIQUE,
+                UID INTEGER AUTOINCREMENT UNIQUE,
                 USERNAME CHAR(32) UNIQUE,
                 PASSWORD CHAR(128),
                 REP INTEGER,
                 NUMOFRATINGS INTEGER
+                
+                PRIMARY KEY(UID) 
             );
         """)
 
@@ -126,6 +133,16 @@ def createUsers() -> bool:
     except Exception as e:
         print("Exception: ", e)
         return 1
+    
+
+def loadUser(username, password) -> bool:
+    conn = sqlite3.connect("trucks.db")
+
+    conn.cursor().execute("INSERT INTO users(USERNAME, PASSWORD) VALUES (?, ?)", (username, password))
+
+    conn.commit()
+    return 0
+
 ######################################## End Users ##########################################
 
 ###################################### Create Ratings #######################################
