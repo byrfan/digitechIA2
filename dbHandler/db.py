@@ -1,26 +1,23 @@
 import sqlite3
 import os
+import hashlib
 
 def createTable(json):
     if not os.path.exists(f"{os.getcwd()}/trucks.db"):
         
-        createTrucks(json)
-        createUsers()
-        #if not createRatings(): exit(1)
-        
+        if not createTrucks(json): print("Error in `createTrucks(json)`"); exit(1)
+        if not createUsers(): print("Error in `createUsers()`"); exit(1)
 
-        #print(createTrucks(json))
-
-        return 0
+        return True
     else:
-        return 1
+        return False
 
 
-###################################### Create Trucks ########################################
+###################################### Define Trucks ########################################
 
 def createTrucks(json) -> bool:
     """
-    Creates database,
+    Defines database,
     should only be called from root directory.
     """
     
@@ -44,10 +41,10 @@ def createTrucks(json) -> bool:
     """)
     conn.commit()
 
-    if loadTrucks(json) == 1:
-        return 1
+    if loadTrucks(json) == False:
+        return False
     
-    return 0
+    return True
     
 
 def updateTrucks(json) -> bool:
@@ -63,7 +60,7 @@ def updateTrucks(json) -> bool:
 
     return createTrucks(json)
 
-def loadTrucks(json) -> None:
+def loadTrucks(json) -> bool:
     """
     Loads api resultant into the database.
     """
@@ -89,11 +86,11 @@ def loadTrucks(json) -> None:
             )
 
         conn.commit()
-        return 0
-    except Exception as e:
+        return True
+    except Exception as e: # what ?????
         #print("Error, ", e)
         #return 1
-        pass
+        return False
 
 def truck_example(numOf: int) -> list:
     conn = sqlite3.connect("trucks.db")
@@ -104,11 +101,11 @@ def truck_example(numOf: int) -> list:
 
 ####################################### End Trucks ##########################################     
 
-###################################### Create Users #########################################
+###################################### Define Users #########################################
 
 def createUsers() -> bool:
     """
-    Creates users database,
+    Defines users database,
     should only be called from root directory.
     """
     
@@ -116,35 +113,51 @@ def createUsers() -> bool:
         
     try: # couldnt use CREATE TABLE IF NOT EXITS HERE, in order to check for table creation on attempt.
         conn.cursor().execute("""\
-            CREATE TABLE users(
-                UID INTEGER AUTOINCREMENT UNIQUE,
+            CREATE TABLE users (
+                UID INTEGER PRIMARY KEY AUTOINCREMENT,
                 USERNAME CHAR(32) UNIQUE,
                 PASSWORD CHAR(128),
                 REP INTEGER,
                 NUMOFRATINGS INTEGER
-                
-                PRIMARY KEY(UID) 
             );
         """)
 
         conn.commit()
 
-        return 0  
-    except Exception as e:
-        print("Exception: ", e)
-        return 1
+        return True  
+    except:
+        #print("Exception: ", e)
+        return False
     
 
 def loadUser(username, password) -> bool:
+    h = hashlib.sha256()
+    h.update(password.encode())
+    password = h.hexdigest()
+
     conn = sqlite3.connect("trucks.db")
 
     conn.cursor().execute("INSERT INTO users(USERNAME, PASSWORD) VALUES (?, ?)", (username, password))
 
     conn.commit()
-    return 0
+    return True
+
+def checkUser(username, password) -> bool:
+    h = hashlib.sha256()
+    h.update(password.encode())
+    password = h.hexdigest()
+    
+    conn = sqlite3.connect("trucks.db")
+    
+    e = conn.cursor().execute(f"SELECT CASE WHEN EXISTS(SELECT * FROM users WHERE USERNAME = '{username}' AND PASSWORD = '{password}') THEN 1 ELSE 0 END as exist;").fetchall()
+
+
+
+    if(e[0][0] == 0): return False
+    else: return True
 
 ######################################## End Users ##########################################
 
-###################################### Create Ratings #######################################
+###################################### Define Ratings #######################################
 
 ####################################### End Ratings #########################################
