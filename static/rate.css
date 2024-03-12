@@ -1,0 +1,40 @@
+.container {
+    text-align: center;
+    position: relative;
+}
+.tapered-image {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px; /* Adjust the radius as needed */
+}
+.tapered-image img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px; /* Same radius as the container */
+}
+.overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+    color: white;
+    padding: 10px;
+    box-sizing: border-box;
+    border-bottom-left-radius: 20px; /* Adjust as needed */
+    border-bottom-right-radius: 20px; /* Adjust as needed */
+}
+.next-button {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}

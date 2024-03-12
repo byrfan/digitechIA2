@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antique Bakery Cafe HTML Template by Tooplate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&family=Oswald:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/all.min.css"> <!-- fontawesome -->
+    <!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="../static/tailwind.css">
+    <link rel="stylesheet" href="../static/tooplate-antique-cafe.css">
+    <link rel="stylesheet" href="../static/rate.css">
+</head>
+<body style="opacity: 0; transition: opacity .5s;">    
+    <!-- Intro -->
+    <div id="intro" class="parallax-window" data-parallax="scroll" data-image-src="../static/food_truck_01.png">
+        <nav id="tm-nav" class="fixed w-full">
+            <div class="tm-container mx-auto px-2 md:py-6 text-right">
+                <button class="md:hidden py-2 px-2" id="menu-toggle"><i class="fas fa-2x fa-bars tm-text-gold"></i></button>
+                <ul class="mb-3 md:mb-0 text-2xl font-normal flex justify-end flex-col md:flex-row">
+                    <li class="inline-block mb-4 mx-4"><a onclick="transitionToPage('/')" class="tm-text-gold py-1 md:py-3 px-4">Home</a></li>
+                    <li id="logout" class="inline-block mb-4 mx-4"><a onclick="transitionToPage('/logout')" class="tm-text-gold py-1 md:py-3 px-4">Logout</a></li>
+                        
+                    <script>
+                        logout = {{logout}}
+                        var x = document.getElementById("logout")
+                        if(logout == 0)
+                        {
+                            x.style.display = "block"
+                        }
+                        else
+                        {
+                            x.style.display = "none"
+                        }
+                    </script>
+
+                </ul>
+            </div>            
+        </nav>
+        
+        <div style="height: 20rem"></div>
+
+        <div class="container">
+            <div class="tapered-image">
+            <img id="IMG" src="y" alt="Food Truck">
+                <div class="overlay">
+                    <h2 id="name">Information Below the Image</h2>
+                    <p id="desc">This is some information about the image.</p>
+                </div>
+            </div>
+            <button class="next-button" onclick="getNextTruck()">Next</button>
+        </div>
+    </div>
+    
+
+
+
+    <script src="../static/jquery-3.6.0.min.js"></script>
+    <script src="../static/parallax.min.js"></script>
+    <script src="../static/jquery.singlePageNav.min.js"></script>
+    <script src="../static/pageTransitions.js"></script>
+    <script>
+        var nextTruck;
+
+        function getNextTruck()
+        {
+            $.ajax({
+                url: "/nextTruck",
+                type: "GET",
+                
+                success: function(response)
+                {
+                    nextTruck = response;
+                }
+            });
+            
+            document.getElementById("IMG").src = nextTruck[5];
+            document.getElementById("name").value = nexTruck[1];
+            document.getElementById("desc").value = nexTruck[3];
+
+            // 0 is id, 1 is name, 2 is category, 3 is description, 4 is avatar, 5 is "website image"
+
+        }
+        
+
+        function checkAndShowHideMenu() {
+            if(window.innerWidth < 768) {
+                $('#tm-nav ul').addClass('hidden');                
+            } else {
+                $('#tm-nav ul').removeClass('hidden');
+            }
+        }
+
+        $(function(){
+            var tmNav = $('#tm-nav');
+            tmNav.singlePageNav();
+
+            checkAndShowHideMenu();
+            window.addEventListener('resize', checkAndShowHideMenu);
+
+            $('#menu-toggle').click(function(){
+                $('#tm-nav ul').toggleClass('hidden');
+            });
+
+            $('#tm-nav ul li').click(function(){
+                if(window.innerWidth < 768) {
+                    $('#tm-nav ul').addClass('hidden');
+                }                
+            });
+
+            $(document).scroll(function() {
+                var distanceFromTop = $(document).scrollTop(); 
+
+                if(distanceFromTop > 100) {
+                    tmNav.addClass('scroll');
+                } else {
+                    tmNav.removeClass('scroll');
+                }
+            });
+            
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => { // code out default <a> behaviour
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        });
+
+        $('.form').find('input, textarea').on('keyup blur focus', function (e) {
+        
+        var $this = $(this),
+            label = $this.prev('label');
+
+          if (e.type === 'keyup') {
+            if ($this.val() === '') {
+                label.removeClass('active highlight');
+              } else {
+                label.addClass('active highlight');
+              }
+          } else if (e.type === 'blur') {
+            if( $this.val() === '' ) {
+              label.removeClass('active highlight'); 
+            } else {
+              label.removeClass('highlight');   
+            }   
+          } else if (e.type === 'focus') {
+            
+            if( $this.val() === '' ) {
+              label.removeClass('highlight'); 
+            } 
+            else if( $this.val() !== '' ) {
+              label.addClass('highlight');
+            }
+          }
+
+      });
+
+      $('.tab a').on('click', function (e) {
+        
+        e.preventDefault();
+        
+        $(this).parent().addClass('active');
+        $(this).parent().siblings().removeClass('active');
+        
+        target = $(this).attr('href');
+
+        $('.tab-content > div').not(target).hide();
+        
+        $(target).fadeIn(600);
+        
+      });
+    </script>
+</body>
+</html>
