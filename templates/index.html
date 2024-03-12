@@ -12,7 +12,6 @@
     <!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="../static/tailwind.css">
     <link rel="stylesheet" href="../static/tooplate-antique-cafe.css">
-
 </head>
 <body style="opacity: 0; transition: opacity .5s;">    
     <!-- Intro -->
@@ -23,19 +22,23 @@
                 <ul class="mb-3 md:mb-0 text-2xl font-normal flex justify-end flex-col md:flex-row">
                     <li class="inline-block mb-4 mx-4"><a href="#intro" class="tm-text-gold py-1 md:py-3 px-4">Intro</a></li>
                     <li class="inline-block mb-4 mx-4"><a href="#menu" class="tm-text-gold py-1 md:py-3 px-4">Trucks</a></li>
-                    <li class="inline-block mb-4 mx-4"><a onclick="transitionToPage('/login')" class="tm-text-gold py-1 md:py-3 px-4">Login</a></li>
+                    <li class="inline-block mb-4 mx-4"><a onclick="transitionToPage('/rate')" class="tm-text-gold py-1 md:py-3 px-4">Rate</a></li>
+                    <li id="login" class="inline-block mb-4 mx-4"><a onclick="transitionToPage('/login')" class="tm-text-gold py-1 md:py-3 px-4">Login</a></li>
                     <li id="logout" class="inline-block mb-4 mx-4"><a onclick="transitionToPage('/logout')" class="tm-text-gold py-1 md:py-3 px-4">Logout</a></li>
                         
                     <script>
                         logout = {{logout}}
-                        var x = document.getElementById("logout")
+                        var x = document.getElementById("logout");
+                        var y = document.getElementById("login");
                         if(logout == 0)
                         {
-                            x.style.display = "block"
+                            y.style.display = "none";
+                            x.style.display = "block";
                         }
                         else
                         {
-                            x.style.display = "none"
+                            y.style.display = "block";
+                            x.style.display = "none";
                         }
                     </script>
                 </ul>

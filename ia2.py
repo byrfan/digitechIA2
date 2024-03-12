@@ -67,6 +67,12 @@ def rate():
 
     # implelment ratings
 
+    return render_template("rate.html", logout=0 if c in users else 1)
+
+@app.route("/nextTruck")
+def nT():
+    truck = db.truck_example(1)
+    return render_template_string(f"{list(truck[0])}")
 
 
 if __name__ == "__main__":

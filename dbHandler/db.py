@@ -12,7 +12,6 @@ def createTable(json):
     else:
         return False
 
-
 ###################################### Define Trucks ########################################
 
 def createTrucks(json) -> bool:
