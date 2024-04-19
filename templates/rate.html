@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="../static/tooplate-antique-cafe.css">
     <link rel="stylesheet" href="../static/rate.css">
 </head>
-<body style="opacity: 0; transition: opacity .5s;">    
+<body style="opacity: 0; transition: opacity .5s;" onload="getNextTruck()">    
     <!-- Intro -->
     <div id="intro" class="parallax-window" data-parallax="scroll" data-image-src="../static/food_truck_01.png">
         <nav id="tm-nav" class="fixed w-full">
@@ -41,9 +41,9 @@
             </div>            
         </nav>
         
-        <div style="height: 20rem"></div>
+        <div id="spacer" style="height: 20rem"></div>
 
-        <div class="container">
+        <div id="c" class="container">
             <div class="tapered-image">
             <img id="IMG" src="y" alt="Food Truck">
                 <div class="overlay">
@@ -52,6 +52,15 @@
                 </div>
             </div>
             <button class="next-button" onclick="getNextTruck()">Next</button>
+
+            <div class="rating" id="rating">
+                <span class="star" data-value="1">&#9733;</span>
+                <span class="star" data-value="2">&#9733;</span>
+                <span class="star" data-value="3">&#9733;</span>
+                <span class="star" data-value="4">&#9733;</span>
+                <span class="star" data-value="5">&#9733;</span>
+            </div>
+            <button class="submit-button" onclick="">Submit</button>
         </div>
     </div>
     
@@ -63,7 +72,14 @@
     <script src="../static/jquery.singlePageNav.min.js"></script>
     <script src="../static/pageTransitions.js"></script>
     <script>
-        var nextTruck;
+
+        function replaceQuotes(inputString) {
+            // Replace all occurrences of '&#34;' with '"'
+            inputString = inputString.replace(/&#34;/g, '"');
+            // Replace all single quotes with double quotes
+            inputString = inputString.replace(/'/g, '"');
+            return inputString;
+        }
 
         function getNextTruck()
         {
@@ -73,13 +89,35 @@
                 
                 success: function(response)
                 {
-                    nextTruck = response;
+                    console.clear();
+                    console.log(response);
+                    var nextTruck = JSON.parse(response);
+
+                    console.log(nextTruck);
+
+                    nextTruck = nextTruck["ID"];
+                    document.getElementById("IMG").src = nextTruck[5];
+                    document.getElementById("name").innerHTML = nextTruck[1];
+                 
+                    document.getElementById("desc").innerHTML = nextTruck[3];
+                
+                    if(nextTruck[3] > 120)
+                    {
+                        document.body.style.overflow = 'hidden';
+                        document.getElementById('d').style.top ='20rem';
+                    } else {
+                        document.body.style.overflow = 'auto';
+                        document.getElementById('spacer').style.top =  20 + 20 * nextTruck/120 + 'rem';
+                    }
+                },
+
+                error: function()
+                {
+                    console.log("fail");
                 }
             });
             
-            document.getElementById("IMG").src = nextTruck[5];
-            document.getElementById("name").value = nexTruck[1];
-            document.getElementById("desc").value = nexTruck[3];
+
 
             // 0 is id, 1 is name, 2 is category, 3 is description, 4 is avatar, 5 is "website image"
 
@@ -118,7 +156,7 @@
                     tmNav.addClass('scroll');
                 } else {
                     tmNav.removeClass('scroll');
-                }
+               }
             });
             
             document.querySelectorAll('a[href^="#"]').forEach(anchor => { // code out default <a> behaviour
@@ -175,6 +213,29 @@
         $(target).fadeIn(600);
         
       });
+
+
+      document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star');
+
+        stars.forEach(function(star) {
+            star.addEventListener('click', function() {
+                const value = parseInt(this.getAttribute('data-value'));
+                setRating(value);
+            });
+        });
+
+        function setRating(value) {
+            stars.forEach(function(star) {
+                if (parseInt(star.getAttribute('data-value')) <= value) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+          }
+      });
+
     </script>
 </body>
 </html>

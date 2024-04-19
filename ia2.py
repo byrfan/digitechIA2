@@ -1,6 +1,7 @@
 from flask import *
 from dbHandler import db
 from api import api
+import json
 
 print("Creating Flask Instance")
 app = Flask("IA2 Template")
@@ -16,12 +17,11 @@ else:
 
 users = []
 
-
 @app.route("/")
 def landing():
     c = request.cookies.get("user")
 
-    eg = db.truck_example(8)
+    eg = db.depreciated_Truck_example(8)
     return render_template("index.html", left=eg[:4], right=eg[4:], logout=0 if c in users else 1 )
 
 @app.route("/login")
@@ -72,8 +72,7 @@ def rate():
 @app.route("/nextTruck")
 def nT():
     truck = db.truck_example(1)
-    return render_template_string(f"{list(truck[0])}")
-
+    return render_template_string(f"{truck}")
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

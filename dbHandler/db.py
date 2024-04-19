@@ -1,8 +1,9 @@
 import sqlite3
 import os
 import hashlib
+import json
 
-def createTable(json):
+def createTable(json) -> bool:
     if not os.path.exists(f"{os.getcwd()}/trucks.db"):
         
         if not createTrucks(json): print("Error in `createTrucks(json)`"); exit(1)
@@ -44,7 +45,6 @@ def createTrucks(json) -> bool:
         return False
     
     return True
-    
 
 def updateTrucks(json) -> bool:
     """
@@ -91,12 +91,26 @@ def loadTrucks(json) -> bool:
         #return 1
         return False
 
-def truck_example(numOf: int) -> list:
+def depreciated_Truck_example(numOf: int) -> list:
     conn = sqlite3.connect("trucks.db")
 
     return conn.cursor().execute(
         f"SELECT * FROM trucks ORDER BY RANDOM() LIMIT {numOf}"
     ).fetchall()
+
+def truck_example(numOf: int) -> str:
+    if numOf > 1:
+        exit()
+
+    conn = sqlite3.connect("trucks.db")
+     
+    cursor = conn.cursor()
+
+    truck = cursor.execute(
+        f"SELECT * FROM trucks ORDER BY RANDOM() LIMIT {numOf}"
+    ).fetchall()
+
+    return json.dumps(dict(zip([column[0] for column in cursor.description], truck)))
 
 ####################################### End Trucks ##########################################     
 

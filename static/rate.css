@@ -1,40 +1,81 @@
+body {
+    overflow: hidden; 
+}
+
 .container {
-    text-align: center;
-    position: relative;
-}
-.tapered-image {
-    display: inline-block;
-    position: relative;
-    overflow: hidden;
-    border-radius: 20px; /* Adjust the radius as needed */
-}
-.tapered-image img {
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: 20px; /* Same radius as the container */
-}
-.overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
-    color: white;
-    padding: 10px;
-    box-sizing: border-box;
-    border-bottom-left-radius: 20px; /* Adjust as needed */
-    border-bottom-right-radius: 20px; /* Adjust as needed */
-}
-.next-button {
     position: absolute;
     top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    background-color: #007bff;
-    color: white;
-    border: none;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; 
+    max-width: 600px;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.tapered-image {
+    position: relative;
+    overflow: hidden;
+    max-width: 100%;
+    border-radius: 10px;
+}
+
+.tapered-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+    border-radius: 10px;
+}
+
+.overlay {
+    margin-top: 20px; 
+}
+
+.overlay h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.overlay p {
+    font-size: 1em;
+    margin-bottom: 20px;
+}
+
+.next-button {
+    display: block;
+    margin: 0 auto;
     padding: 10px 20px;
+    font-size: 1em;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
+
+.next-button:hover {
+    background-color: #0056b3;
+}
+
+#name, #desc {
+    color:  #ebd8c4;
+}
+
+.rating {
+    font-size: 24px;
+}
+
+.star {
+    cursor: pointer;
+    color: gray;
+}
+
+.star:hover,
+.star.active {
+    color: gold;
+}
+
