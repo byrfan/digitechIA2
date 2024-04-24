@@ -8,6 +8,7 @@ def createTable(json) -> bool:
         
         if not createTrucks(json): print("Error in `createTrucks(json)`"); exit(1)
         if not createUsers(): print("Error in `createUsers()`"); exit(1)
+        if not createRatings(): print("Error in `createRatings()`"); exit(1)
 
         return True
     else:
@@ -172,5 +173,38 @@ def checkUser(username, password) -> bool:
 ######################################## End Users ##########################################
 
 ###################################### Define Ratings #######################################
+
+def createRatings() -> bool:
+    """
+    Defines ratings database,
+    should only be called from root directory.
+    """
+    
+    conn = sqlite3.connect("trucks.db")
+        
+    try: # couldnt use CREATE TABLE IF NOT EXITS HERE, in order to check for table creation on attempt.
+        conn.cursor().execute("""\
+            CREATE TABLE ratings (
+                UID INTEGER PRIMARY KEY AUTOINCREMENT,
+                TRUCK CHAR(32),
+                SCORE INTEGER,
+
+                FOREIGN KEY(TRUCK) REFERENCES trucks(ID)
+            );
+        """)
+
+        conn.commit()
+
+        return True  
+    except:
+        #print("Exception: ", e)
+        return False
+
+def loadRating(truck, score) -> bool:
+    conn = sqlite3.connect("trucks.db")
+
+    conn.cursor().execute("INSERT INTO ratings(TRUCK, SCORE) VALUES (?, ?)", (truck, score))
+
+    return True
 
 ####################################### End Ratings #########################################

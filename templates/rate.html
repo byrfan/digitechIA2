@@ -60,7 +60,7 @@
                 <span class="star" data-value="4">&#9733;</span>
                 <span class="star" data-value="5">&#9733;</span>
             </div>
-            <button class="submit-button" onclick="">Submit</button>
+            <button class="submit-button" onclick="_submit()">Submit</button>
         </div>
     </div>
     
@@ -116,13 +116,23 @@
                     console.log("fail");
                 }
             });
+        }
             
-
-
             // 0 is id, 1 is name, 2 is category, 3 is description, 4 is avatar, 5 is "website image"
 
+        function _submit()
+        {
+            _rating = 0;
+            const stars = document.querySelectorAll('.star');
+            
+            stars.forEach(function(star) {
+                if(star.classList.contains('active')) {
+                       _rating += 1; 
+                }
+            });
+
+            $.post({"/addRating", {rating: _rating}});
         }
-        
 
         function checkAndShowHideMenu() {
             if(window.innerWidth < 768) {
