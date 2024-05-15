@@ -7,10 +7,10 @@ print("Creating Flask Instance")
 app = Flask("IA2 Template")
 
 print("Grabbing json from API")
-json = api.get()
+_json = api.get()
 
 print("Checking DB Status... ", end="")
-if not db.createTable(json):
+if not db.createTable(_json):
     print("Exists!")
 else:
     print("DB Does Not Exist.\n New DB Created...")
@@ -69,10 +69,38 @@ def rate():
 
     return render_template("rate.html", logout=0 if c in users else 1)
 
+@app.route("/adminportal")
+def admin():
+    c = request.cookies.get("user")
+    if c in users and c == "admin@ad.min":
+        ratings = db.rating_example()
+        return render_template("admin.html", ratings=ratings)
+        
+    else:
+        return redirect("/")
+
 @app.route("/nextTruck")
 def nT():
     truck = db.truck_example(1)
     return render_template_string(f"{truck}")
+
+@app.route("/deleteRow", methods=["POST"])
+def dR():
+    db.deleteRow(request.form["row"])
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
+
+@app.route("/addRating", methods=["POST"])
+def nR():
+    c = request.cookies.get("user")
+    if c in users:
+        d = request.form
+
+        score = d["score"]
+        truck = d["truck"]
+        db.loadRating(truck, score)
+
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}   
+    
 
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

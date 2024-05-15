@@ -110,9 +110,16 @@ def truck_example(numOf: int) -> str:
     truck = cursor.execute(
         f"SELECT * FROM trucks ORDER BY RANDOM() LIMIT {numOf}"
     ).fetchall()
+     
 
-    return json.dumps(dict(zip([column[0] for column in cursor.description], truck)))
+    out = dict(zip([column[0] for column in cursor.description], truck))
+    tID = out["ID"][0]
+    rating = cursor.execute(f"SELECT AVG(SCORE) as a_s FROM ratings where TRUCK = '{tID}'").fetchall()
 
+    out["rating"] = rating[0][0] 
+    
+    return json.dumps(out)
+    
 ####################################### End Trucks ##########################################     
 
 ###################################### Define Users #########################################
@@ -204,7 +211,28 @@ def loadRating(truck, score) -> bool:
     conn = sqlite3.connect("trucks.db")
 
     conn.cursor().execute("INSERT INTO ratings(TRUCK, SCORE) VALUES (?, ?)", (truck, score))
-
+    # conn.cursor().execute("DELETE FROM ratings()")
+    conn.commit()
     return True
 
+def rating_example():
+    conn = sqlite3.connect("trucks.db")
+     
+    cursor = conn.cursor()
+
+    truck = cursor.execute(
+        f"SELECT * FROM ratings"
+    ).fetchall()
+     
+
+    return truck
+
+def deleteRow(rowID):
+    conn = sqlite3.connect("trucks.db")
+
+    cursor = conn.cursor()
+
+    truck = cursor.execute(f"DELETE FROM ratings WHERE UID={rowID}")
+    
+    conn.commit()
 ####################################### End Ratings #########################################

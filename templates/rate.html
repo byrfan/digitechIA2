@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antique Bakery Cafe HTML Template by Tooplate</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&family=Oswald:wght@600&display=swap" rel="stylesheet">
@@ -48,6 +47,7 @@
             <img id="IMG" src="y" alt="Food Truck">
                 <div class="overlay">
                     <h2 id="name">Information Below the Image</h2>
+                    <h3 id="score" style="color: white;">Score</h3>
                     <p id="desc">This is some information about the image.</p>
                 </div>
             </div>
@@ -95,12 +95,15 @@
 
                     console.log(nextTruck);
 
+                    var rating = nextTruck["rating"];
                     nextTruck = nextTruck["ID"];
+                    truckID = nextTruck;
                     document.getElementById("IMG").src = nextTruck[5];
                     document.getElementById("name").innerHTML = nextTruck[1];
                  
                     document.getElementById("desc").innerHTML = nextTruck[3];
-                
+                    document.getElementById("score").innerHTML = "Score: " + Math.round(rating*100)/100;
+
                     if(nextTruck[3] > 120)
                     {
                         document.body.style.overflow = 'hidden';
@@ -116,22 +119,21 @@
                     console.log("fail");
                 }
             });
-        }
-            
+        }            
+
             // 0 is id, 1 is name, 2 is category, 3 is description, 4 is avatar, 5 is "website image"
 
         function _submit()
         {
             _rating = 0;
-            const stars = document.querySelectorAll('.star');
+            var stars = document.querySelectorAll('.star');
             
             stars.forEach(function(star) {
                 if(star.classList.contains('active')) {
                        _rating += 1; 
                 }
             });
-
-            $.post({"/addRating", {rating: _rating}});
+            $.post("/addRating", {score: _rating, truck: truckID[0]});
         }
 
         function checkAndShowHideMenu() {

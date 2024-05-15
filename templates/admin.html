@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600&family=Oswald:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/all.min.css"> <!-- fontawesome -->
+    <!-- <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="../static/tailwind.css">
+    <link rel="stylesheet" href="../static/tooplate-antique-cafe.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+        table {
+            width: 80%; /* Set the width of the table */
+            margin: 0 auto; /* Center the table horizontally */
+            border-collapse: collapse; /* Collapse borders */
+        }
+        #regrow {
+            border: 1px solid #ddd; /* Add borders to cells */
+            padding: 8px; /* Add padding to cells */
+            text-align: left; /* Align text to the left */
+        }
+        th {
+            background-color: #f2f2f2; /* Add background color to header cells */
+        }
+
+        #delete {
+            text-align: center;
+        }
+
+        #delete:hover {
+            background-color: red;
+            cursor: pointer;
+        }
+        
+        @keyframes flash {
+            0% { background-color: #666; }
+            50% { background-color: red; }
+            100% { background-color: #666; }
+        }
+
+        .flash-red {
+            animation: flash 1s ease-in-out;
+        }
+
+</style>
+</head>
+<body>    
+        <table>
+        <thead>
+            <tr id="regrow">
+                <th>Rating ID</th>
+                <th>Truck ID</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in ratings %}
+            <tr id="regrow">
+                <td id="regrow">{{ row[0] }}</td>
+                <td id="regrow">{{ row[1] }}</td>
+                <td id="regrow">{{ row[2] }}</td>
+                <td id="delete" onclick="deleteRow(this, '{{row[0]}}')">delete</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+<script>
+    function deleteRow(button, rowID) 
+    {
+        $.post("/deleteRow", {row: rowID});
+        row = button.parentNode;
+        
+        row.classList.add('flash-red');
+        setTimeout(function() {
+            row.remove();
+        }, 400);
+    }
+</script>
