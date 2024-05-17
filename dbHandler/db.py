@@ -3,6 +3,7 @@ import os
 import hashlib
 import json
 
+
 def createTable(json) -> bool:
     if not os.path.exists(f"{os.getcwd()}/trucks.db"):
         
@@ -195,7 +196,8 @@ def createRatings() -> bool:
                 UID INTEGER PRIMARY KEY AUTOINCREMENT,
                 TRUCK CHAR(32),
                 SCORE INTEGER,
-
+                COMMENT CHAR(128),
+                
                 FOREIGN KEY(TRUCK) REFERENCES trucks(ID)
             );
         """)
@@ -207,10 +209,10 @@ def createRatings() -> bool:
         #print("Exception: ", e)
         return False
 
-def loadRating(truck, score) -> bool:
+def loadRating(truck, score, comment="") -> bool:
     conn = sqlite3.connect("trucks.db")
 
-    conn.cursor().execute("INSERT INTO ratings(TRUCK, SCORE) VALUES (?, ?)", (truck, score))
+    conn.cursor().execute("INSERT INTO ratings(TRUCK, SCORE, COMMENT) VALUES (?, ?, ?)", (truck, score, comment))
     # conn.cursor().execute("DELETE FROM ratings()")
     conn.commit()
     return True
@@ -235,4 +237,13 @@ def deleteRow(rowID):
     truck = cursor.execute(f"DELETE FROM ratings WHERE UID={rowID}")
     
     conn.commit()
+
+def getCurrentScore(truckID):
+    conn = sqlite3.connect("trucks.db")
+
+    cursor = conn.cursor()
+
+
+    return cursor.execute(f'SELECT AVG(SCORE) as a_s FROM ratings where TRUCK = "{truckID}"').fetchall()[0][0]
+
 ####################################### End Ratings #########################################

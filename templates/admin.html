@@ -55,6 +55,7 @@
                 <th>Rating ID</th>
                 <th>Truck ID</th>
                 <th>Score</th>
+                <th>Comment</th>
             </tr>
         </thead>
         <tbody>
@@ -63,6 +64,7 @@
                 <td id="regrow">{{ row[0] }}</td>
                 <td id="regrow">{{ row[1] }}</td>
                 <td id="regrow">{{ row[2] }}</td>
+                <td id="regrow">{{ row[3] }}</td>
                 <td id="delete" onclick="deleteRow(this, '{{row[0]}}')">delete</td>
             </tr>
             {% endfor %}

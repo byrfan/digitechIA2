@@ -12,6 +12,13 @@
     <link rel="stylesheet" href="../static/tailwind.css">
     <link rel="stylesheet" href="../static/tooplate-antique-cafe.css">
     <link rel="stylesheet" href="../static/rate.css">
+    <style>
+        #commentField {
+            border-radius: 1rem;
+            height: 2rem;
+        }
+    </style>
+
 </head>
 <body style="opacity: 0; transition: opacity .5s;" onload="getNextTruck()">    
     <!-- Intro -->
@@ -60,6 +67,13 @@
                 <span class="star" data-value="4">&#9733;</span>
                 <span class="star" data-value="5">&#9733;</span>
             </div>
+            
+            <div id="commentField">
+                <form id="commentField">
+                    <input id="comment">
+                </form>
+            </div>
+
             <button class="submit-button" onclick="_submit()">Submit</button>
         </div>
     </div>
@@ -79,6 +93,20 @@
             // Replace all single quotes with double quotes
             inputString = inputString.replace(/'/g, '"');
             return inputString;
+        }
+
+        function getCurrentScore(truckID)
+        {
+            $.ajax({
+                url: "/getScore?truckID=" + truckID,
+                type: "POST",
+
+                success: function(response) 
+                {
+                    console.log(response);
+                    document.getElementById("score").innerHTML = response;
+                }
+            });
         }
 
         function getNextTruck()
@@ -123,17 +151,28 @@
 
             // 0 is id, 1 is name, 2 is category, 3 is description, 4 is avatar, 5 is "website image"
 
-        function _submit()
+        async function doSubmit(rating, truck, comment)
+        {
+            const result = await $.post("/addRating", {score: rating, truck: truck, comment: comment});
+            
+            return result;
+        }
+
+        async function _submit()
         {
             _rating = 0;
             var stars = document.querySelectorAll('.star');
-            
+            var comment = document.getElementById("comment").value;
+
             stars.forEach(function(star) {
                 if(star.classList.contains('active')) {
                        _rating += 1; 
                 }
             });
-            $.post("/addRating", {score: _rating, truck: truckID[0]});
+            document.getElementById("comment").value = "";
+
+            const result = await doSubmit(_rating, truckID[0], comment);
+            getCurrentScore(truckID[0]);
         }
 
         function checkAndShowHideMenu() {

@@ -69,6 +69,11 @@ def rate():
 
     return render_template("rate.html", logout=0 if c in users else 1)
 
+@app.route("/getScore", methods=["POST"])
+def gS():
+    print(request.args['truckID'])
+    return render_template_string(f"{db.getCurrentScore(request.args['truckID'])}")
+
 @app.route("/adminportal")
 def admin():
     c = request.cookies.get("user")
@@ -97,7 +102,8 @@ def nR():
 
         score = d["score"]
         truck = d["truck"]
-        db.loadRating(truck, score)
+        comment = d["comment"]
+        db.loadRating(truck, score, comment)
 
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}   
     
